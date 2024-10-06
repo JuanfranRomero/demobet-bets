@@ -15,6 +15,10 @@ public class RouletteServiceImpl implements RouletteService {
 		Integer rouletteNumber = (int) (Math.random() * 36);
 		RouletteNumberDtoBuilder rouletteNumberDtoBuilder = new RouletteNumberDtoBuilder(rouletteNumber);
 		
+		if (rouletteNumber == 0) {
+			return rouletteNumberDtoBuilder.build();
+		}
+		
 		return rouletteNumberDtoBuilder
 			.withColor(getColor(rouletteNumber))
 			.withColumn(getColumn(rouletteNumber))

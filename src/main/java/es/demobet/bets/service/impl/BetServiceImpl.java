@@ -120,39 +120,39 @@ public class BetServiceImpl implements BetService {
 		for (Bet bet : bets) {
 			switch (bet.getBoxType()) {
 			case "color": {
-				if (rouletteNumberDto.getColor().equalsIgnoreCase(bet.getBoxValue())) {
+				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getColor())) {
 					profit += bet.getAmount() * 2;
 				}
 				break;
 			}
 			
 			case "column":
-				if (rouletteNumberDto.getColumn().equalsIgnoreCase(bet.getBoxValue())) {
+				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getColumn())) {
 					profit += bet.getAmount() * 3;
 				}
 				break;
 			
 			case "row":
-				if (rouletteNumberDto.getRow().equalsIgnoreCase(bet.getBoxValue())) {
+				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getRow())) {
 					profit += bet.getAmount() * 3;
 				}
 				break;
 				
 			case "half":
-				if (rouletteNumberDto.getHalf().equalsIgnoreCase(bet.getBoxValue())) {
+				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getHalf())) {
 					profit += bet.getAmount() * 2;
 				}
 				break;
 				
 			case "parity":
-				if (rouletteNumberDto.getParity().equalsIgnoreCase(bet.getBoxValue())) {
+				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getParity())) {
 					profit += bet.getAmount() * 2;
 				}
 				break;
 
 			// Number
 			default:
-				if (rouletteNumberDto.getNumber().toString().equalsIgnoreCase(bet.getBoxValue())) {
+				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getNumber().toString())) {
 					profit += bet.getAmount() * 36;
 				}
 				break;
