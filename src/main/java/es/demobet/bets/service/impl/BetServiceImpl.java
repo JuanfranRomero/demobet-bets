@@ -27,6 +27,7 @@ import es.demobet.bets.service.BetService;
 import es.demobet.bets.service.RouletteService;
 import es.demobet.bets.utils.BoxConstants;
 import es.demobet.bets.utils.EndpointConstants;
+import es.demobet.bets.utils.enumeration.BoxTypeEnum;
 
 @Service
 public class BetServiceImpl implements BetService {
@@ -118,39 +119,38 @@ public class BetServiceImpl implements BetService {
 	private Integer calculateProfit(List<Bet> bets, RouletteNumberDto rouletteNumberDto) {
 		Integer profit = 0;
 		for (Bet bet : bets) {
-			switch (bet.getBoxType()) {
-			case "color": {
+			BoxTypeEnum boxTypeEnum = BoxTypeEnum.byValue(bet.getBoxType());
+			switch (boxTypeEnum) {
+			case COLOR: 
 				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getColor())) {
 					profit += bet.getAmount() * 2;
 				}
 				break;
-			}
 			
-			case "column":
+			case COLUMN:
 				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getColumn())) {
 					profit += bet.getAmount() * 3;
 				}
 				break;
 			
-			case "row":
+			case ROW:
 				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getRow())) {
 					profit += bet.getAmount() * 3;
 				}
 				break;
 				
-			case "half":
+			case HALF:
 				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getHalf())) {
 					profit += bet.getAmount() * 2;
 				}
 				break;
 				
-			case "parity":
+			case PARITY:
 				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getParity())) {
 					profit += bet.getAmount() * 2;
 				}
 				break;
 
-			// Number
 			default:
 				if (bet.getBoxValue().equalsIgnoreCase(rouletteNumberDto.getNumber().toString())) {
 					profit += bet.getAmount() * 36;
@@ -163,19 +163,15 @@ public class BetServiceImpl implements BetService {
 	}
 	
 	private WalletResponse invokeWalletMSToSubtract(Integer userId, Integer amount) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(EndpointConstants.WALLET_SUBTRACT_URL);
-		
-        WalletRequest walletRequest = new WalletRequest(userId, amount);
-        HttpEntity<WalletRequest> httpEntity = new HttpEntity<WalletRequest>(walletRequest);
-
-        ResponseEntity<WalletResponse> responseEntity = 
-        		restTemplate.exchange(builder.toUriString(), HttpMethod.PUT, httpEntity, WalletResponse.class);
-        
-        return responseEntity.getBody();
+        return invokeWalletMS(userId, amount, EndpointConstants.WALLET_SUBTRACT_URL);
 	}
 	
 	private WalletResponse invokeWalletMSToIncreaseProfit(Integer userId, Integer amount) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(EndpointConstants.WALLET_INCREASE_PROFIT_URL);
+        return invokeWalletMS(userId, amount, EndpointConstants.WALLET_INCREASE_PROFIT_URL);
+	}
+	
+	private WalletResponse invokeWalletMS(Integer userId, Integer amount, String url) {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
 		
         WalletRequest walletRequest = new WalletRequest(userId, amount);
         HttpEntity<WalletRequest> httpEntity = new HttpEntity<WalletRequest>(walletRequest);

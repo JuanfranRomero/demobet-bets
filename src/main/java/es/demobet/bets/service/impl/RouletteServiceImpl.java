@@ -6,6 +6,11 @@ import es.demobet.bets.model.builder.RouletteNumberDtoBuilder;
 import es.demobet.bets.model.dto.RouletteNumberDto;
 import es.demobet.bets.service.RouletteService;
 import es.demobet.bets.utils.BoxConstants;
+import es.demobet.bets.utils.enumeration.ColorEnum;
+import es.demobet.bets.utils.enumeration.ColumnEnum;
+import es.demobet.bets.utils.enumeration.HalfEnum;
+import es.demobet.bets.utils.enumeration.ParityEnum;
+import es.demobet.bets.utils.enumeration.RowEnum;
 
 @Service
 public class RouletteServiceImpl implements RouletteService {
@@ -29,35 +34,38 @@ public class RouletteServiceImpl implements RouletteService {
 	}
 	
 	private String getColor(Integer number) {
-		return BoxConstants.colorMap.get("Red").contains(number) ? "Red" : "Black";
+		return BoxConstants.colorMap.get(ColorEnum.RED.getValue()).contains(number) 
+				? ColorEnum.RED.getValue() : ColorEnum.BLACK.getValue();
 	}
 	
 	private String getColumn(Integer number) {
-		if (BoxConstants.columnMap.get("1st12").contains(number)) {
-			return "1st12";
-		} else if (BoxConstants.columnMap.get("2nd12").contains(number)) {
-			return "2nd12";
+		if (BoxConstants.columnMap.get(ColumnEnum.FIRST_COLUMN.getValue()).contains(number)) {
+			return ColumnEnum.FIRST_COLUMN.getValue();
+		} else if (BoxConstants.columnMap.get(ColumnEnum.SECOND_COLUMN.getValue()).contains(number)) {
+			return ColumnEnum.SECOND_COLUMN.getValue();
 		} else {
-			return "3rd12";
+			return ColumnEnum.THIRD_COLUMN.getValue();
 		}
 	}
 	
 	private String getRow(Integer number) {
-		if (BoxConstants.rowMap.get("3-36").contains(number)) {
-			return "3-36";
-		} else if (BoxConstants.rowMap.get("2-35").contains(number)) {
-			return "2-35";
+		if (BoxConstants.rowMap.get(RowEnum.FIRST_ROW.getValue()).contains(number)) {
+			return RowEnum.FIRST_ROW.getValue();
+		} else if (BoxConstants.rowMap.get(RowEnum.SECOND_ROW.getValue()).contains(number)) {
+			return RowEnum.SECOND_ROW.getValue();
 		} else {
-			return "1-34";
+			return RowEnum.THIRD_ROW.getValue();
 		}
 	}
 	
 	private String getHalf(Integer number) {
-		return BoxConstants.halfMap.get("1-18").contains(number) ? "1-18" : "19-36";
+		return BoxConstants.halfMap.get(HalfEnum.FIRST_HALF.getValue()).contains(number) 
+				? HalfEnum.FIRST_HALF.getValue() : HalfEnum.SECOND_HALF.getValue();
 	}
 	
 	private String getParity(Integer number) {
-		return BoxConstants.parityMap.get("Even").contains(number) ? "Even" : "Odd";
+		return BoxConstants.parityMap.get(ParityEnum.EVEN.getValue()).contains(number) 
+				? ParityEnum.EVEN.getValue() : ParityEnum.ODD.getValue();
 	}
 
 }
