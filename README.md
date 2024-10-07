@@ -6,3 +6,4 @@ Technologies used:
 * Spring Data JPA
 * MySQL database connection
 * Lombok
+* Docker
